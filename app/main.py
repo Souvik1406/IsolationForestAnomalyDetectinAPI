@@ -1,8 +1,18 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware  # ✅ add this
 from pydantic import BaseModel
 from model_utils import get_feature_names, predict_anomaly
 
 app = FastAPI()
+
+# ✅ Add CORS support to allow requests from browser frontends
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or restrict to ["http://localhost:5500"] if needed
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class LogonInput(BaseModel):
     FailedLogons: int
